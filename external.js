@@ -19,17 +19,17 @@ const getRndItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
   const updateScore = () =>
     (scoreDiv.textContent = `You : ${plyScr} Computer : ${compScr}`);
 
-  function playRound(event) {
+  function playRound(event, counter) {
     let plyChoice = event.target.id;
     let compChoice = getRndItem(CHOICES);
     if (isTie(plyChoice, compChoice)) {
-      return `It's a tie!`;
+      return `It's a tie for the round ${counter}`;
     } else if (isPlyWin(plyChoice, compChoice)) {
       plyScr++;
-      return `You won ${plyChoice} beats ${compChoice}`;
+      return `${plyChoice} beats ${compChoice}! You won the round ${counter}`;
     } else {
       compScr++;
-      return `You lose ${compChoice} beats ${plyChoice}`;
+      return `${compChoice} beats ${plyChoice} :/ You lost the round ${counter}`;
     }
   }
 
@@ -40,7 +40,7 @@ const getRndItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
       return;
     }
     counter++;
-    let result = playRound(event);
+    let result = playRound(event, counter);
     updateResult(result);
     updateScore();
     if (counter < MAX_ROUNDS) {
