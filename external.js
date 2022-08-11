@@ -1,71 +1,59 @@
-//create two global variables to store each players score
-let playerScore = 0,
-  computerScore = 0;
+const getRndItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-//generate random choice
-function getComputerChoice(choices) {
-  return choices[Math.floor(Math.random() * choices.length)];
-}
-
-function playRound(event) {
-  //declare a variable playerSelection and store the event nodes class
-  let playerSelection = event.target.classList.value;
-
-  //take the computer choice in another variable
-  let computerSelection = getComputerChoice(["ROCK", "PAPER", "SCISSOR"]);
-
-  //create two variables that'll reference to divs result and score
+(() => {
+  const MAX_ROUNDS = 5;
+  const CHOICES = ["Rock", "Paper", "Scissor"];
   const resultDiv = document.querySelector(".result");
   const scoreDiv = document.querySelector(".score");
-  let result;
+  const roundDiv = document.querySelector(".round");
+  const options = document.querySelector(".options");
+  const isTie = (plyChoice, compChoice) => plyChoice === compChoice;
+  const isPlyWin = (plyChoice, compChoice) =>
+    (plyChoice === CHOICES[0] && compChoice === CHOICES[2]) ||
+    (plyChoice === CHOICES[1] && compChoice === CHOICES[0]) ||
+    (plyChoice === CHOICES[2] && compChoice === CHOICES[1]);
+  const updateResult = (result) => (resultDiv.textContent = result);
 
-  //after any condition is met, increment each player's score and update the result
-  if (playerSelection != null) playerSelection = playerSelection.toUpperCase();
-  if (playerSelection === computerSelection) {
-    result = `It's a tie!`;
-  } else if (
-    (playerSelection === "ROCK" && computerSelection === "SCISSOR") ||
-    (playerSelection === "PAPER" && computerSelection === "ROCK") ||
-    (playerSelection === "SCISSOR" && computerSelection == "PAPER")
-  ) {
-    result = `You won ${playerSelection} beats ${computerSelection}`;
-    playerScore++;
-  } else {
-    result = `You lose ${computerSelection} beats ${playerSelection}`;
-    computerScore++;
+  let plyScr = 0,
+    compScr = 0;
+  const updateScore = () =>
+    (scoreDiv.textContent = `You : ${plyScr} Computer : ${compScr}`);
+
+  function playRound(event) {
+    let plyChoice = event.target.id;
+    let compChoice = getRndItem(CHOICES);
+    if (isTie(plyChoice, compChoice)) {
+      return `It's a tie!`;
+    } else if (isPlyWin(plyChoice, compChoice)) {
+      plyScr++;
+      return `You won ${plyChoice} beats ${compChoice}`;
+    } else {
+      compScr++;
+      return `You lose ${compChoice} beats ${plyChoice}`;
+    }
   }
 
-  //update div.result
-  resultDiv.textContent = result;
-  //update score
-  scoreDiv.textContent = `You : ${playerScore} Computer : ${computerScore}`;
-}
-
-function playGame() {
   let counter = 0;
-  //call the addeventlistener  'click'  and update the score div consequently
-  const options = document.querySelector(".options");
-  options.addEventListener("click", (event) => {
+  function playGame(event) {
     const isButton = event.target.nodeName === "BUTTON";
-    if (!isButton || counter >= 5) {
+    if (!isButton || counter >= MAX_ROUNDS) {
       return;
     }
     counter++;
-    const round = document.querySelector(".round");
-    playRound(event);
-    if (counter < 5) {
-      round.textContent = `Round ${counter + 1}`;
+    let result = playRound(event);
+    updateResult(result);
+    updateScore();
+    if (counter < MAX_ROUNDS) {
+      roundDiv.textContent = `Round ${counter + 1}`;
     } else {
       displayWinner();
     }
-  });
-}
+  }
 
-//after game ends
-function displayWinner() {
-  const round = document.querySelector(".round");
-  if (computerScore > playerScore) round.textContent = "Computer won :/";
-  else if (playerScore > computerScore) round.textContent = "You won!";
-  else round.textContent = "Nobody won the game ";
-}
-playGame();
+  function displayWinner() {
+    if (compScr > plyScr) roundDiv.textContent = "Computer won :/";
+    else if (plyScr > compScr) roundDiv.textContent = "You won!";
+    else roundDiv.textContent = "Nobody won the game ";
+  }
+  options.addEventListener("click", playGame);
+})();
