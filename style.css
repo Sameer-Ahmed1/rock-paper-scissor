@@ -3,19 +3,48 @@ body {
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  gap: 1em;
+  gap: 1.5em;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
 }
 
 .options {
   display: flex;
   gap: 4em;
 }
-
+#h2 {
+  margin-top: -20px;
+}
 button {
   font-size: 2em;
   padding: 1em;
+  width: 150px;
+  height: 200px;
+  border: none;
+  background: transparent;
 }
 
+button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px 1px;
+}
+.paper {
+  background-image: url(./images/paper.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+}
+.rock {
+  background-image: url(./images/rock.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 90%;
+}
+.scissor {
+  background-image: url(./images/scissor.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 140%;
+}
 .round,
 .score,
 .result {
