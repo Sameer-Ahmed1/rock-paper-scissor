@@ -1,6 +1,5 @@
 const getRndItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-(() => {
   const MAX_ROUNDS = 5;
   const CHOICES = ["Rock", "Paper", "Scissor"];
   const resultDiv = document.querySelector(".result");
@@ -56,4 +55,3 @@ const getRndItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
     else roundDiv.textContent = "Nobody won the game ";
   }
   options.addEventListener("click", playGame);
-})();
