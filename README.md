@@ -2,4 +2,4 @@
 
 rock-paper-scissor game with a very simple ui
 
-More css will be added later
+live demo : https://sameer-ahmed1.github.io/rock-paper-scissor/ 
